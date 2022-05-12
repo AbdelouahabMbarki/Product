@@ -1,0 +1,11 @@
+version: "2.3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product_listing_api
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config.json:/app/config.json
