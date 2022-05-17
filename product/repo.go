@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-
 	"github.com/go-kit/kit/log"
 )
 
@@ -37,9 +36,16 @@ func (repo *repo) CreateProduct(ctx context.Context, product Product) error {
 }
 func (repo *repo) ListProducts(ctx context.Context) ([]Product, error) {
 	var products []Product
-	err := repo.db.QueryRow("SELECT * FROM products ").Scan(&products)
+	rows, err := repo.db.Query("SELECT id, name, description, price FROM products;")
 	if err != nil {
 		return nil, RepoErr
+	}
+	for rows.Next() {
+		var product Product
+		if err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.Price); err != nil {
+			return nil, RepoErr
+		}
+		products = append(products, product)
 	}
 
 	return products, nil

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"AbdelouahabMbarki/Product/product"
 	"context"
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/AbdelouahabMbarki/Product/product"
 
 	_ "github.com/lib/pq"
 
@@ -17,10 +17,9 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"github.com/AbdelouahabMbarki/Product"
 )
 
-const dbsource = "postgresql://postgres:postgres@localhost:5432/gokitexample?sslmode=disable"
+const dbsource = "postgresql://postgres:postgres@localhost:5432/product?sslmode=disable"
 
 func main() {
 	var httpAddr = flag.String("http", ":8080", "http listen address")
@@ -29,7 +28,7 @@ func main() {
 		logger = log.NewLogfmtLogger(os.Stderr)
 		logger = log.NewSyncLogger(logger)
 		logger = log.With(logger,
-			"service", "account",
+			"service", "product	",
 			"time:", log.DefaultTimestampUTC,
 			"caller", log.DefaultCaller,
 		)
@@ -76,3 +75,4 @@ func main() {
 	}()
 
 	level.Error(logger).Log("exit", <-errs)
+}

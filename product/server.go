@@ -18,7 +18,7 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 		encodeResponse,
 	))
 
-	r.Methods("GET").Path("/products").Handler(httptransport.NewServer(
+	r.Methods("GET").Path("/product").Handler(httptransport.NewServer(
 		endpoints.ListProducts,
 		decodeUserReq,
 		encodeResponse,

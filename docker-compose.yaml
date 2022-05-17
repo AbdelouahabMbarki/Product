@@ -1,11 +1,19 @@
-version: "2.3"
+version: '3.5'
+
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: product_listing_api
-    ports:
-      - 9090:9090
+  postgres:
+    container_name: postgres_container
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: product
+      PGDATA: /data/postgres
     volumes:
-      - ./config.json:/app/config.json
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  postgres:
