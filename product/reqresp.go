@@ -15,12 +15,6 @@ type (
 	CreateProductResponse struct {
 		Ok string `json:"ok"`
 	}
-
-	ListProductsRequest struct {
-	}
-	ListProductsResponse struct {
-		Products []Product `json:"products"`
-	}
 )
 
 func encodeResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
@@ -33,4 +27,8 @@ func decodeUserReq(ctx context.Context, r *http.Request) (interface{}, error) {
 		return nil, err
 	}
 	return req, nil
+}
+
+func decodeUserListProductsReq(ctx context.Context, r *http.Request) (request interface{}, err error) {
+	return r, nil
 }

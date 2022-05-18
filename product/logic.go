@@ -40,6 +40,7 @@ func (s service) CreateProduct(ctx context.Context, name string, description str
 }
 
 func (s service) ListProducts(ctx context.Context) ([]Product, error) {
+	all := "All"
 	logger := log.With(s.logger, "method", "ListProducts")
 
 	products, err := s.repository.ListProducts(ctx)
@@ -49,7 +50,7 @@ func (s service) ListProducts(ctx context.Context) ([]Product, error) {
 		return nil, err
 	}
 
-	logger.Log("Get Products")
+	logger.Log("Listing Products", all)
 
 	return products, nil
 }

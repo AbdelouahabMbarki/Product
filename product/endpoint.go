@@ -12,12 +12,12 @@ type Endpoints struct {
 
 func MakeEndpoints(s Service) Endpoints {
 	return Endpoints{
-		CreateProduct: makeCreateUserEndpoint(s),
-		ListProducts:  makeGetUserEndpoint(s),
+		CreateProduct: makeCreateProductEndpoint(s),
+		ListProducts:  makeListProductsEndpoint(s),
 	}
 }
 
-func makeCreateUserEndpoint(s Service) endpoint.Endpoint {
+func makeCreateProductEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(CreateProductRequest)
 		ok, err := s.CreateProduct(ctx, req.Name, req.Description, req.Price)
@@ -25,11 +25,9 @@ func makeCreateUserEndpoint(s Service) endpoint.Endpoint {
 	}
 }
 
-func makeGetUserEndpoint(s Service) endpoint.Endpoint {
+func makeListProductsEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		products, err := s.ListProducts(ctx)
-		return ListProductsResponse{
-			Products: products,
-		}, err
+		return products, err
 	}
 }
