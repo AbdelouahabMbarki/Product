@@ -2,7 +2,7 @@
 debug: true
 
 server:
-  port: ":8080"
+  port: ":8081"
 
 Database:
-  url: "mongodb://mongo:mongo@mongo:27017/?retryWrites=true&w=majority"
+  url: "mongodb://mongo:mongo@localhost:27017/?retryWrites=true&w=majority"

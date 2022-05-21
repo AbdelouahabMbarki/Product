@@ -20,12 +20,13 @@ func NewService(rep Repository, logger log.Logger) Service {
 	}
 }
 
-func (s service) CreateProduct(ctx context.Context, name string, description string, price float32) (string, error) {
+func (s service) CreateProduct(ctx context.Context, name string, sku string, description string, price float32) (string, error) {
 	logger := log.With(s.logger, "method", "CreateProduct")
 	uuid, _ := uuid.NewV4()
 	id := uuid.String()
 	product := Product{
 		ID:          id,
+		Sku:         sku,
 		Name:        name,
 		Description: description,
 		Price:       price,

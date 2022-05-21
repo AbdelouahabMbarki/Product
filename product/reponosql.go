@@ -23,11 +23,12 @@ func NewReponoSql(db *mongo.Client, logger log.Logger) Repository {
 }
 
 func (repo *reponoql) CreateProduct(ctx context.Context, product Product) error {
-	if product.Name == "" || product.Description == "" || product.Price == 0 {
+	if product.Name == "" || product.Sku == "" || product.Description == "" || product.Price == 0 {
 		return RepoErrreponoql
 	}
 	_, err := repo.db.Database("product").Collection("products").InsertOne(ctx, bson.D{
 		{"id", product.ID},
+		{"sku", product.Sku},
 		{"name", product.Name},
 		{"description", product.Description},
 		{"price", product.Price},

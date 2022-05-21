@@ -20,7 +20,7 @@ func MakeEndpoints(s Service) Endpoints {
 func makeCreateProductEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(CreateProductRequest)
-		ok, err := s.CreateProduct(ctx, req.Name, req.Description, req.Price)
+		ok, err := s.CreateProduct(ctx, req.Name, req.Sku, req.Description, req.Price)
 		return CreateProductResponse{Ok: ok}, err
 	}
 }

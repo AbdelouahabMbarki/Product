@@ -4,6 +4,7 @@ import "context"
 
 type Product struct {
 	ID          string  `json:"id,omitempty"`
+	Sku         string  `json:"sku" validate:"required"`
 	Name        string  `json:"name" validate:"required"`
 	Description string  `json:"description" validate:"required"`
 	Price       float32 `json:"price" validate:"required"`

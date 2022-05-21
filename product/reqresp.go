@@ -9,6 +9,7 @@ import (
 type (
 	CreateProductRequest struct {
 		Name        string  `json:"name"`
+		Sku         string  `json:"sku"`
 		Description string  `json:"description"`
 		Price       float32 `json:"price"`
 	}
