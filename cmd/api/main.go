@@ -5,24 +5,23 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/AbdelouahabMbarki/Product/product"
 
+	"github.com/AbdelouahabMbarki/Product/config"
+	"github.com/AbdelouahabMbarki/Product/product"
 	_ "github.com/lib/pq"
 
 	"github.com/go-kit/kit/log"
-
-	"github.com/go-kit/kit/log/level"
 
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/go-kit/kit/log/level"
 )
 
-const dbsource = "postgresql://postgres:postgres@localhost:5432/product?sslmode=disable"
-
 func main() {
-	var httpAddr = flag.String("http", ":8080", "http listen address")
+
 	var logger log.Logger
 	{
 		logger = log.NewLogfmtLogger(os.Stderr)
@@ -33,7 +32,12 @@ func main() {
 			"caller", log.DefaultCaller,
 		)
 	}
-
+	config, err := config.LoadConfig(".")
+	if err != nil {
+		level.Error(logger).Log("exit", err)
+		os.Exit(1)
+	}
+	var httpAddr = flag.String("http", config.Server.Port, "http listen address")
 	level.Info(logger).Log("msg", "service started")
 	defer level.Info(logger).Log("msg", "service ended")
 
@@ -41,10 +45,10 @@ func main() {
 	{
 		var err error
 
-		db, err = sql.Open("postgres", dbsource)
+		db, err = sql.Open("postgres", config.Database.Url)
 		if err != nil {
 			level.Error(logger).Log("exit", err)
-			os.Exit(-1)
+			os.Exit(1)
 		}
 
 	}

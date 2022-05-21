@@ -1,9 +1,10 @@
 BINARY=engine
+
 test: 
 	go test -v -cover -covermode=atomic ./...
 
 engine:
-	go build -o ${BINARY} app/*.go
+	go build -o ${BINARY} cmd/api/main.go
 
 
 unittest:
@@ -13,7 +14,7 @@ clean:
 	if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
 
 docker:
-	docker build -t go-clean-arch .
+	docker build -t product-microservice .
 
 run:
 	docker-compose up --build -d

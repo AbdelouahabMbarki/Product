@@ -1,0 +1,9 @@
+---
+debug: true
+
+server:
+  port: ":8080"
+
+Database:
+  url: postgresql://postgres:postgres@localhost:5432/product?sslmode=disable
+
