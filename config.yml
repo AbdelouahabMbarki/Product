@@ -5,5 +5,4 @@ server:
   port: ":8080"
 
 Database:
-  url: postgresql://postgres:postgres@postgres:5432/product?sslmode=disable
-
+  url: "mongodb://mongo:mongo@mongo:27017/?retryWrites=true&w=majority"

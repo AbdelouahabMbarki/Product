@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/AbdelouahabMbarki/Product/config"
 	"github.com/AbdelouahabMbarki/Product/product"
@@ -18,6 +18,8 @@ import (
 	"syscall"
 
 	"github.com/go-kit/kit/log/level"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -41,23 +43,28 @@ func main() {
 	level.Info(logger).Log("msg", "service started")
 	defer level.Info(logger).Log("msg", "service ended")
 
-	var db *sql.DB
+	var db *mongo.Client
+
 	{
 		var err error
-
-		db, err = sql.Open("postgres", config.Database.Url)
+		db, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(config.Database.Url))
 		if err != nil {
 			level.Error(logger).Log("exit", err)
 			os.Exit(1)
 		}
-
+		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+		err = db.Connect(ctx)
+		if err != nil {
+			level.Info(logger).Log("msg", err)
+		}
+		defer db.Disconnect(ctx)
 	}
 
 	flag.Parse()
 	ctx := context.Background()
 	var srv product.Service
 	{
-		repository := product.NewRepo(db, logger)
+		repository := product.NewReponoSql(db, logger)
 
 		srv = product.NewService(repository, logger)
 	}

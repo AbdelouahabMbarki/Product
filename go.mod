@@ -8,4 +8,5 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/lib/pq v1.10.5
 	github.com/spf13/viper v1.11.0
+	go.mongodb.org/mongo-driver v1.9.1
 )
