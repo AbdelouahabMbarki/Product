@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
+
 	"github.com/spf13/viper"
 )
 
@@ -33,6 +33,5 @@ func LoadConfig(path string) (config Configurations, err error) {
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v", err)
 	}
-	spew.Dump(config)
 	return
 }

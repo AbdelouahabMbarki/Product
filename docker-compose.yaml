@@ -15,5 +15,14 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
+  product:
+    container_name: product_microservice
+    build: .
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
 volumes:
   postgres:

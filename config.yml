@@ -5,5 +5,5 @@ server:
   port: ":8080"
 
 Database:
-  url: postgresql://postgres:postgres@localhost:5432/product?sslmode=disable
+  url: postgresql://postgres:postgres@postgres:5432/product?sslmode=disable
 
