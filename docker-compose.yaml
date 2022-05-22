@@ -1,19 +1,6 @@
 version: '3.5'
 
 services:
-  #postgres:
-  #  container_name: postgres_container
-  #  image: postgres:14
-  #  environment:
-  #    POSTGRES_USER: ${POSTGRES_USER:-postgres}
-  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-  #    POSTGRES_DB: product
-  #    PGDATA: /data/postgres
-  #  volumes:
-  #    - postgres:/data/postgres
-  #  ports:
-  #    - "5432:5432"
-  #  restart: unless-stopped
   mongo:
     image: mongo
     restart: always
@@ -24,22 +11,13 @@ services:
       - 27017:27017
     volumes:
       - mongo:/data/db     
-  #mongo-express:
-  #  image: mongo-express
-  #  restart: always
-  #  ports:
-  #    - 8081:8081
-  #  environment:
-  #    ME_CONFIG_MONGODB_ADMINUSERNAME: mongo
-  #    ME_CONFIG_MONGODB_ADMINPASSWORD: mongo
-  #    ME_CONFIG_MONGODB_URL: mongodb://mongo:mongo@mongo:27017/
   product:
     container_name: product_microservice
     build: .
     volumes:
       - ./config.yml:/app/config.yml:ro
     ports:
-      - "8080:8080"
+      - "8081:8081"
     restart: unless-stopped
 
 volumes:
