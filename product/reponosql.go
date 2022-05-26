@@ -3,9 +3,11 @@ package product
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/go-kit/kit/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var RepoErrreponoql = errors.New("Unable to handle Repo Request")
@@ -40,12 +42,31 @@ func (repo *reponoql) CreateProduct(ctx context.Context, product Product) error 
 }
 func (repo *reponoql) ListProducts(ctx context.Context) ([]Product, error) {
 	var products []Product
-	cursor, err := repo.db.Database("product").Collection("products").Find(ctx, bson.M{})
+	opts := options.Find().SetProjection(bson.D{{"_id", 0}})
+	cursor, err := repo.db.Database("product").Collection("products").Find(ctx, bson.D{}, opts)
+	print(err)
 	if err != nil {
 		return nil, RepoErrSql
 	}
-	if err = cursor.All(ctx, &products); err != nil {
+	defer cursor.Close(ctx)
+	for cursor.Next(ctx) {
+		var result bson.D
+		var p Product
+
+		if err = cursor.Decode(&result); err != nil {
+			return nil, RepoErrSql
+		}
+		fmt.Println(result)
+		doc, _ := bson.Marshal(result)
+
+		err = bson.Unmarshal(doc, &p)
+		fmt.Println(p.Price)
+		products = append(products, p)
+	}
+
+	if err != nil {
 		return nil, RepoErrSql
 	}
+
 	return products, nil
 }

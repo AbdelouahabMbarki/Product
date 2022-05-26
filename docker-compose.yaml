@@ -2,24 +2,25 @@ version: '3.5'
 
 services:
   mongo:
+    build:
+        context: ./docker/product-db/ 
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: product
     ports:
       - 27017:27017
-    volumes:
-      - mongo:/data/db     
+   
   product:
     container_name: product_microservice
-    build: .
+    image: microproject/product
+    build:
+        context: .
+        dockerfile: ./docker/product/Dockerfile    
     volumes:
       - ./config.yml:/app/config.yml:ro
     ports:
       - "8081:8081"
     restart: unless-stopped
-
-volumes:
-  postgres:
-  mongo:
