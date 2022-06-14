@@ -35,7 +35,7 @@ jobs:
         export_default_credentials: true
 
     - name: Build the Docker image
-      run: docker build . --file docker/inventory/Dockerfile --tag $IMAGE_NAME:latest 
+      run: docker build . --file docker/product/Dockerfile --tag $IMAGE_NAME:latest 
 
     - name: Configure Docker Client
       run: |-
